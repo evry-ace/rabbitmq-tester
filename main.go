@@ -92,7 +92,7 @@ func producer() bool {
 	defer ch.Close()
 	ticker := time.NewTicker(time.Duration(float64(*testInterval)) * time.Second)
 	quit := make(chan bool)
-	err = nil
+	log.Printf("Ready to publish messages")
 	go func() {
 		for {
 			select {
@@ -153,7 +153,11 @@ func consumer() bool {
 	updateMetrics(kind, success, failed)
 	for d := range msgs {
 		log.Printf("Message recived: %s", d.Body)
-		d.Ack(false)
+		err = d.Ack(false)
+		if err != nil{
+			log.Printf("Ack error: %s",err)
+			break
+		}
 	}
 	updateMetrics(kind, failed, success)
 	return tryAgainOnFailure
