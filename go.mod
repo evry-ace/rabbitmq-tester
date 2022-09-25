@@ -1,6 +1,6 @@
 module github.com/evry-ace/rabbitmq-tester
 
-go 1.16
+go 1.19
 
 require (
 	github.com/prometheus/client_golang v1.12.1
